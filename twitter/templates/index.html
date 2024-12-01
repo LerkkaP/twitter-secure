@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}">
+
+    <title>Twitter</title>
+  </head>
+  <body>
+    <main class="index">
+      <div class="index__container">
+        <div class="index__left-col">
+          <img src="{% static 'images/twitter-icon.svg' %}" alt="Twitter Icon">
+        </div>
+        <div class="index__right-col">
+          <h1 class="index__heading-primary">Happening now</h1>
+          <h2 class="index__heading-secondary">Join today.</h2>
+          <div class="index__buttons">
+            <button class="index__button index__button--outlined" id="openLogin">Sign in</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="modal" id="loginModal">
+      <div class="modal__content">
+        <span class="close" id="closeLogin">&times;</span>
+        <img src="{% static 'images/twitter-icon.svg' %}" width="50px" height="50px">
+        <h2>Sign in</h2>
+
+        {% if messages %}
+        <div class="modal__messages">
+          {% for message in messages %}
+            {% if 'login' in message.tags %}
+              <div class="alert {{ message.tags }}">{{ message }}</div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'login' %}">
+          {% csrf_token %}
+          <input type="text" name="username" placeholder="Username" value="{{ form_data.username|default:'' }}">
+          <input type="password" name="password" placeholder="Password" value="{{ form_data.password|default:'' }}">
+          <button type="submit">Sign in</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="{% static 'js/modals.js' %}"></script>
+  </body>
+</html>

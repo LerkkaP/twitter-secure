@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}">
+    <title>Twitter</title>
+  </head>
+  <body>
+    <div class="home">
+      <nav class="navigation">
+        <ul class="navigation__list">
+          <li class="navigation__item">
+            <a id="bird" href="{% url 'home' %}" class="navigation__link">
+              <img src="{% static 'images/twitter-icon.svg' %}" width="30px" height="30px" class="navigation__icon">
+            </a>
+          </li>
+          <li class="navigation__item">
+            <a href="{% url 'home' %}" class="navigation__link">
+              <img src="{% static 'images/home-icon.png' %}" width="30px" height="30px" class="navigation__icon">
+              Home
+            </a>
+          </li>
+          <li class="navigation__item">
+            <a href="/profile/{{ request.user.id }}" class="navigation__link">
+              <img src="{% static 'images/profile-icon.png' %}" width="30px" height="30px" class="navigation__icon">
+              Profile
+            </a>
+          </li>
+        </ul>        
+        <div class="navigation__user" onclick="togglePopup(event)">
+          <div class="navigation__picture-username">
+            <img src="{% static 'images/profile-icon.png' %}" width="40px" height="40px" class="navigation__icon">
+            {{ request.user.username }}
+          </div>
+          <span class="navigation__dots">
+            &#x2026;
+          </span>
+          
+          <div class="popup" id="logoutPopup">
+            <div class="popup__content">
+              <a class="popup__link" href="{% url 'logout' %}" class="popup-logout-btn">
+                <p>Logout @{{request.user.username}}</p>
+              </a>
+            </div>
+            <span class="popup__arrow"></span>
+          </div>
+        </div>
+
+
+        
+      </nav>
+
+      <main class="feed">
+        {% block content %}
+        {% endblock %}
+      </main>
+    </div>
+
+    <script>
+function togglePopup(event) {
+  event.stopPropagation(); 
+  var popup = document.getElementById('logoutPopup');
+  popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+}
+
+window.onclick = function(event) {
+  var popup = document.getElementById('logoutPopup');
+  if (popup.style.display === 'block' && !event.target.closest('.navigation__user')) {
+    popup.style.display = 'none';
+  }
+};
+    </script>
+  </body>
+</html>
