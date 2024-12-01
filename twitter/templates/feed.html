@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% load static %}
+    <div class="create-post">
+        <form method="POST" action="{% url 'create_post' %}">
+            {% csrf_token %}
+            <a href="/profile/{{ request.user.id }}">
+                <img src="{% static 'images/profile-icon.png' %}" width="40px" height="40px" class="navigation__icon">
+            </a>
+            <div class="posts">
+                <textarea id="post-textarea" class="create-post__text" cols="50" maxlength="280" placeholder="What is happening?!" name="text"></textarea>
+                <button class="create-post__button">Post</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="posts-feed">
+			{% for post in posts %}
+			<a href="{% url 'post_detail' post.id%}">
+				<div class="post">
+					<div class="post__information">
+						<strong class="username" data-user-id="{{ post.user.id }}">{{ post.user.username }}</strong>
+						<p class="date">{{ post.created_at }}</p>
+					</div>
+					<div>
+						<p>{{ post.text }}</p>
+					</div>
+				</div>
+			</a>
+			{% endfor %}
+    </div>
+
+    <script>
+        const textarea = document.getElementById('post-textarea');
+
+        function adjustTextareaHeight() {
+            textarea.style.height = 'auto';
+
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+
+        textarea.addEventListener('input', adjustTextareaHeight);
+
+        adjustTextareaHeight();
+
+				const usernames = document.querySelectorAll('.username');
+
+				usernames.forEach(username => {
+						username.addEventListener('click', function(event) {
+								event.preventDefault();
+
+								const userId = this.getAttribute('data-user-id');
+
+								window.location.href = `/profile/${userId}`;
+						});
+				});
+    </script>
+{% endblock %}
