@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from twitter.decorators import login_required
 from django.urls import reverse
-from twitter.views.post import add_post, add_comment, delete_post
+from twitter.views.post import add_post, add_comment, delete_post, get_post_details
 from twitter.models import Post
 
 @login_required
@@ -14,8 +14,7 @@ def create_post(request):
 
 @login_required
 def post_detail(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
-    comments = post.comments.all() 
+    post, comments = get_post_details(post_id)
     if request.method == "GET":
 
         return render(request, "post_detail.html", {

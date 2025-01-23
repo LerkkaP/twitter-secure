@@ -1,6 +1,7 @@
 from twitter.models import Post, Comment
 from django.contrib import messages
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
 
 def add_post(request, text):
     if request.method == "POST":
@@ -38,4 +39,15 @@ def delete_post(request, post_id):
     if user_id == post_owner:
         post.delete()
   
+def get_posts():
+    posts = Post.objects.all().order_by("-created_at")  
+    return posts
 
+def get_post_details(post_id):
+    post = get_object_or_404(Post, id=post_id)
+    comments = post.comments.all().order_by("-created_at")
+    return post, comments
+
+def get_profile_posts(user_id):
+    posts = Post.objects.filter(user_id=user_id).order_by("-created_at")
+    return posts
