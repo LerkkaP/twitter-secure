@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from ..views.auth import login_user
-from django.contrib.auth import authenticate, logout
+from twitter.views.auth import login_user
+from django.contrib.auth import logout
 
 def logout_user(request):
     logout(request)
