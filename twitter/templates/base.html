@@ -36,8 +36,27 @@
         </ul>        
         <div class="navigation__user" onclick="togglePopup(event)">
           <div class="navigation__picture-username">
-            <img src="{% static 'images/profile-icon.png' %}" width="40px" height="40px" class="navigation__icon">
-            {{ request.user.username }}
+            {% if request.user.username == "ricky" %}
+              <img src="{% static 'images/ricky.png' %}" width="40px" height="40px" class="navigation__icon">
+              <div>
+                <div class="navigation__name">
+                  Richard LaFleur
+                </div>
+                <div class="navigation__username">
+                  @{{ request.user.username }}
+                </div>
+              </div>
+            {% else %}
+              <img src="{% static 'images/bubbles.png' %}" width="40px" height="40px" class="navigation__icon">
+              <div>
+                <div class="navigation__name">
+                  Bubbles
+                </div>
+                <div class="navigation__username">
+                  @{{ request.user.username }}
+                </div>
+              </div>
+            {% endif %}
           </div>
           <span class="navigation__dots">
             &#x2026;

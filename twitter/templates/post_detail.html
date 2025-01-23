@@ -1,14 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% load static %}
 <div class="post-detail">
     <div class="post-detail__information">
-        <div class="testi">
-            <p><strong>{{ post.user.username }}</strong></p>
-            <p class="date">{{ post.created_at }}</p>
-        </div>
-        <div>
-            <p>{{ post.text }}</p>
+        <div class="post-detail__container">
+            <div>
+                {% if post.user.username == "ricky" %}
+                    <img src="{% static 'images/ricky.png' %}" width="40px" height="40px" class="navigation__icon">
+                {% else %}
+                    <img src="{% static 'images/bubbles.png' %}" width="40px" height="40px" class="navigation__icon">
+                {% endif %}
+            </div>
+            <div>
+                <div class="post__information">
+                    <a href="/profile/{{ post.user.id }}">
+                        <strong class="username" data-user-id="{{ post.user.id }}">{{ post.user.username }}</strong>
+                    </a>
+                    <p class="date">{{ post.created_at }}</p>
+                </div>
+                <p>{{ post.text | linebreaksbr }}</p>
+            </div>
         </div>
     </div>
 
@@ -17,7 +29,14 @@
         <form method="POST" action="{% url 'post_detail' post.id%}">
             {% csrf_token %}
             <div class="add-comment__content">
+                <div class="add-comment__user">
+                {% if request.session.username == "ricky" %}
+                    <img src="{% static 'images/ricky.png' %}" width="40px" height="40px" class="navigation__icon">
+                {% else %}
+                    <img src="{% static 'images/bubbles.png' %}" width="40px" height="40px" class="navigation__icon">
+                {% endif %}
                 <textarea id="post-textarea" class="create-post__text" cols="50" maxlength="280" placeholder="Post your reply" name="comment_text"></textarea>
+                </div>
                 <button type="submit" class="create-post__button">Reply</button>
             </div>
         </form>
@@ -34,19 +53,51 @@
 
     <div class="comments">
         {% for comment in comments %}
-        <div class="comments__comment">
-            <div class="comments__information">
-                <p><strong>{{ comment.user.username }}</strong></p>
-                <p class="date">{{ comment.created_at }}</p>
+        <div class="post">
+            <div >
+                {% if comment.user.username == "ricky" %}
+                    <img src="{% static 'images/ricky.png' %}" width="40px" height="40px" class="navigation__icon">
+                {% else %}
+                    <img src="{% static 'images/bubbles.png' %}" width="40px" height="40px" class="navigation__icon">
+                {% endif %}
             </div>
             <div>
-                <p>
-                    {{ comment.comment_text }} 
-                </p>
+                <div class="post__information">
+                    <a href="/profile/{{ comment.user.id}}">
+                        <strong class="username">{{ comment.user.username }}</strong>
+                    </a>
+                    <p class="date">{{ comment.created_at }}</p>
+                </div>
+                <p>{{ comment.comment_text | linebreaksbr }}</p>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
+<script>
+    const textarea = document.getElementById('post-textarea');
+
+    function adjustTextareaHeight() {
+        textarea.style.height = 'auto';
+
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+    textarea.addEventListener('input', adjustTextareaHeight);
+
+    adjustTextareaHeight();
+
+            const usernames = document.querySelectorAll('.username');
+
+            usernames.forEach(username => {
+                    username.addEventListener('click', function(event) {
+                            event.preventDefault();
+
+                            const userId = this.getAttribute('data-user-id');
+
+                            window.location.href = `/profile/${userId}`;
+                    });
+            });
+</script>
 {% endblock %}
 
