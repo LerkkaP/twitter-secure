@@ -1,3 +1,7 @@
+## Introduction
+
+This repository contains the secure version of the application developed for the Cyber Security Base Project I. The original application intentionally included five vulnerabilities from the OWASP Top 10 (2017) list as part of the course requirements. In this version, all identified flaws have been addressed and mitigated, ensuring that the application adheres to secure coding practices.
+
 ## Requirements
 
 **Python and Django**: The application is implemented with Python and Django.
