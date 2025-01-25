@@ -8,9 +8,9 @@ In this secure version, all identified flaws have been addressed and mitigated, 
 
 ## Requirements
 
-**Python and Django**: The application is implemented with Python and Django.
-
-**Javascript**: This application relies on JavaScript for proper functionality, including interactive features like navigation and popups. Most modern browsers have JavaScript enabled by default. If you've disabled it, please enable it in your browser settings. If you encounter any problems with JavaScript try clearing your browser's cache.
+- **Python**
+- **Django**
+> **_NOTE:_** Ensure JavaScript is enabled in your browser for proper functionality. If you encounter any issues, clearing your browser's cache usually resolves them.
 
 ## Installation guide
 
